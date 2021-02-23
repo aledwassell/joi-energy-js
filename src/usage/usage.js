@@ -20,8 +20,10 @@ const usageCost = (readings, rate) => {
     return usage(readings) * rate;
 };
 
-const usageForAllPricePlans = (pricePlans, readings) => {
-    return Object.entries(pricePlans).map(([key, value]) => {
+const usageForAllPricePlans = (pricePlans, readings, limit) => {
+    // Don't slice the price plans if no limit is provided.
+    const pp = limit ? Object.entries(pricePlans).slice(0, limit ?? 0) : Object.entries(pricePlans);
+    return pp.map(([key, value]) => {
         return {
             [key]: usageCost(readings, value.rate),
         };

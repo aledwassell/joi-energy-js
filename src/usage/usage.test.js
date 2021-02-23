@@ -97,4 +97,23 @@ describe("usage", () => {
 
         expect(usageForAllPricePlansArray).toEqual(expected);
     });
+
+    it("should limit number of priceplans returned", () => {
+        const limit = 2;
+        const { getReadings } = readings({
+            [meters.METER2]: [
+                { time: 1607686125, reading: 0.26785 },
+                { time: 1607599724, reading: 0.26785 },
+                { time: 1607513324, reading: 0.26785 },
+            ],
+        });
+
+        const usageForAllPricePlansArray = usageForAllPricePlans(
+            pricePlans,
+            getReadings(meters.METER2),
+            limit,
+        );
+
+        expect(usageForAllPricePlansArray.length).toBe(limit);
+    });
 });

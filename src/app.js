@@ -1,17 +1,20 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const url = require('url');
+const querystring = require('querystring');
 const { readings } = require("./readings/readings");
 const { readingsData } = require("./readings/readings.data");
 const { read, store } = require("./readings/readings-controller");
 const { recommend, compare } = require("./price-plans/price-plans-controller");
 
 const app = express();
+app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json());
 
 const { getReadings, setReadings } = readings(readingsData);
 
 app.get("/readings/read/:smartMeterId", (req, res) => {
-    res.send(read(getReadings, req));
+    res.send(read(getReadings, req, res));
 });
 
 app.post("/readings/store", (req, res) => {

@@ -3,7 +3,8 @@ const { usageForAllPricePlans } = require("../usage/usage");
 
 const recommend = (getReadings, req) => {
     const meter = req.params.smartMeterId;
-    return usageForAllPricePlans(pricePlans, getReadings(meter));
+    const limit = req.query?.limit ?? null;
+    return usageForAllPricePlans(pricePlans, getReadings(meter), limit);
 };
 
 const compare = (getData, req) => {
@@ -15,3 +16,4 @@ const compare = (getData, req) => {
 };
 
 module.exports = { recommend, compare };
+ 
